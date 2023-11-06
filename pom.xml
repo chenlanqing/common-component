@@ -10,6 +10,7 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>swagger</module>
+        <module>expression</module>
     </modules>
 
     <properties>
