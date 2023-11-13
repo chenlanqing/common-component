@@ -1,8 +1,8 @@
 package com.qing.fan.common.utils;
 
 
-import com.blue.fish.common.enumeration.FileType;
-import org.junit.Assert;
+import com.qing.fan.common.enumeration.FileType;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -72,18 +72,36 @@ public class FileUtils {
         return null;
     }
 
-    public static List<String> loadFile(String path) throws Exception{
+    public static List<String> loadFile(String path) throws Exception {
         InputStream in = FileUtils.class.getClassLoader().getResourceAsStream(path);
-
-        Assert.assertNotEquals(in , null);
-
         String str = "";
         List<String> list = new ArrayList<>();
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-        while ( (str = reader.readLine()) != null ) {
+        while ((str = reader.readLine()) != null) {
             list.add(str);
         }
         return list;
+    }
+
+    /**
+     * 获取文件类型
+     *
+     * @param photoByte 文件字节码
+     * @return 后缀（不含".")
+     */
+    public static String getFileExtendName(byte[] photoByte) {
+        String strFileExtendName = "JPG";
+        if ((photoByte[0] == 71) && (photoByte[1] == 73) && (photoByte[2] == 70) && (photoByte[3] == 56)
+                && ((photoByte[4] == 55) || (photoByte[4] == 57)) && (photoByte[5] == 97)) {
+            strFileExtendName = "GIF";
+        } else if ((photoByte[6] == 74) && (photoByte[7] == 70) && (photoByte[8] == 73) && (photoByte[9] == 70)) {
+            strFileExtendName = "JPG";
+        } else if ((photoByte[0] == 66) && (photoByte[1] == 77)) {
+            strFileExtendName = "BMP";
+        } else if ((photoByte[1] == 80) && (photoByte[2] == 78) && (photoByte[3] == 71)) {
+            strFileExtendName = "PNG";
+        }
+        return strFileExtendName;
     }
 }
